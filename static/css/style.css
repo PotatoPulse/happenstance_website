@@ -718,7 +718,9 @@ nav a:hover::after {
 
 .about .section-content {
     display: grid;
-    grid-template-columns: minmax(220px, 0.75fr) minmax(420px, 1.25fr);
+    grid-template-columns:
+        minmax(180px, 0.75fr)
+        minmax(0, 1.25fr);
     grid-template-areas:
         "label label"
         "title text";
@@ -1110,79 +1112,349 @@ footer a:hover {
     background: var(--blue-dark);
 }
 
+/* ==========================================================
+   Tablet / narrow desktop
+   ========================================================== */
 
-/* ------------------------------
+@media (max-width: 1100px) and (min-width: 751px) {
+
+    /*
+     * Give the section itself a little more usable width.
+     * The number column doesn't need 15% here.
+     */
+    .section {
+        grid-template-columns: 10% minmax(0, 1fr);
+        padding-left: 4vw;
+        padding-right: 4vw;
+    }
+
+
+    /*
+     * Keep Bio + text side-by-side, but allow BOTH
+     * columns to shrink properly.
+     */
+    .about .section-content {
+        grid-template-columns:
+            minmax(150px, 0.55fr)
+            minmax(0, 1.45fr);
+
+        column-gap: clamp(2rem, 5vw, 4rem);
+
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+
+    /*
+     * Critical:
+     * allow the text grid item to actually shrink.
+     */
+    .about-text {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+
+    .about-text p {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-wrap: break-word;
+    }
+
+
+    /*
+     * Scale Bio down slightly as space disappears.
+     */
+    .about h2 {
+        font-size: clamp(4rem, 7vw, 6rem);
+    }
+}
+
+/* ==========================================================
    Mobile
------------------------------- */
+   ========================================================== */
 
 @media (max-width: 750px) {
 
+    /* ------------------------------------------------------
+       Global overflow protection
+       ------------------------------------------------------ */
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main,
+    section {
+        max-width: 100%;
+    }
+
+
+    /* ------------------------------------------------------
+       Navigation
+       ------------------------------------------------------ */
+
     .topbar {
         height: 65px;
-
-        padding:
-                0 6vw;
+        padding: 0 5vw;
     }
 
     .logo {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
     }
 
     nav {
-        gap: 1.2rem;
+        gap: 1rem;
     }
 
     nav a {
-        font-size: 0.6rem;
+        font-size: 0.56rem;
+        letter-spacing: 0.08em;
     }
 
+
+    /* ------------------------------------------------------
+       Hero
+       ------------------------------------------------------ */
+
     .hero {
-        min-height: 600px;
+        height: 100svh;
+        min-height: 620px;
+
+        align-items: flex-start;
+
+        /*
+         * One shared vertical anchor for both
+         * text and bunny.
+         */
+        --hero-center-y: 50%;
+    }
+
+
+    .hero-content {
+        position: absolute;
+
+        left: 5vw;
+        top: var(--hero-center-y);
+
+        transform: translateY(-50%);
+
+        margin: 0;
+
+        width: 55vw;
+        max-width: 55vw;
+
+        z-index: 3;
     }
 
     .hero-content {
-        margin-left: 7vw;
-        margin-right: 7vw;
+        animation: mobileAppear 1.8s ease both;
     }
+
+    @keyframes mobileAppear {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .eyebrow {
+        margin-bottom: 1.5rem;
+
+        font-size: 0.58rem;
+        letter-spacing: 0.18em;
+
+        width: 80vw;
+    }
+
 
     .hero h1 {
-        font-size: 20vw;
+        font-size: clamp(3.2rem, 14.5vw, 6.5rem);
+
+        line-height: 0.80;
+        letter-spacing: -0.065em;
     }
+
 
     .subtitle {
-        max-width: 80%;
+        max-width: 100%;
 
-        font-size: 0.9rem;
+        margin-top: 2rem;
+
+        font-size: 0.85rem;
     }
 
-    .bunny {
-        width: 55px;
+
+
+    /* ------------------------------------------------------
+       Bunny
+
+       Instead of sitting beside the title like desktop,
+       move it into the lower-right portion of the hero.
+       ------------------------------------------------------ */
+
+    .hero-bunny {
+        width: clamp(170px, 37vw, 320px);
+        height: auto;
+
+        right: 2vw;
+
+        top: var(--hero-center-y);
+
+        transform: translateY(-50%);
+
+        opacity: 0.60;
+        z-index: 2;
+
+        filter:
+                drop-shadow(0 0 3px rgba(22, 110, 255, 0.75))
+                drop-shadow(0 0 14px rgba(10, 90, 255, 0.38))
+                drop-shadow(0 0 35px rgba(0, 80, 255, 0.22))
+                drop-shadow(0 0 75px rgba(0, 70, 255, 0.13));
     }
+
+
+    .hero::after {
+        width: clamp(320px, 62vw, 550px);
+
+        right: -8vw;
+
+        top: var(--hero-center-y);
+
+        transform: translateY(-50%);
+
+        opacity: 1;
+
+        background:
+                radial-gradient(
+                        ellipse at center,
+                        rgba(0, 70, 255, 0.20) 0%,
+                        rgba(0, 65, 245, 0.14) 22%,
+                        rgba(0, 55, 225, 0.085) 42%,
+                        rgba(0, 45, 200, 0.035) 60%,
+                        transparent 76%
+                );
+    }
+
+
+    /* ------------------------------------------------------
+       Sigil
+       ------------------------------------------------------ */
+
+    .sigil {
+        width: 75px;
+        height: 75px;
+
+        bottom: 12px;
+    }
+
+
+    /* ------------------------------------------------------
+       All normal sections
+       ------------------------------------------------------ */
 
     .section {
         display: block;
 
-        padding:
-                7rem 7vw;
+        width: 100%;
+        max-width: 100%;
+
+        padding: 7rem 7vw;
     }
 
     .section-number {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-label {
+        margin-bottom: 2rem;
     }
 
     .section h2 {
         margin-bottom: 3rem;
+
+        font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+
+    /* ------------------------------------------------------
+       About / Bio
+
+       IMPORTANT:
+       Desktop defines its own grid on .about .section-content,
+       so we explicitly remove that grid on mobile.
+       ------------------------------------------------------ */
+
+    .about {
+        min-height: 0;
+    }
+
+    .about .section-content {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+
+        min-width: 0;
+    }
+
+    .about h2 {
+        margin-bottom: 3rem;
+
+        font-size: clamp(3.5rem, 17vw, 5rem);
     }
 
     .about-text {
-        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+
+        min-width: 0;
+
+        margin: 0;
+        padding: 0;
     }
+
+    .bio-block {
+        width: 100%;
+        max-width: 100%;
+
+        margin-bottom: 3.5rem;
+    }
+
+    .bio-block p {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-wrap: break-word;
+
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+
+    /* ------------------------------------------------------
+       Gallery
+       ------------------------------------------------------ */
 
     .gallery {
         display: block;
+
+        width: 100%;
     }
 
     .photo {
+        width: 100%;
+
         margin-bottom: 1.5rem;
     }
 
@@ -1195,55 +1467,134 @@ footer a:hover {
         min-height: 0;
     }
 
+
+    /* ------------------------------------------------------
+       Interlude
+       ------------------------------------------------------ */
+
     .interlude {
-        min-height: 500px;
+        height: 65vh;
+        min-height: 450px;
     }
 
-    .contact-links a {
-        gap: 2rem;
+
+    /* ------------------------------------------------------
+       Contact
+
+       Apply EXACTLY the same layout to <a> and <button>.
+       ------------------------------------------------------ */
+
+    .contact {
+        min-height: 0;
     }
+
+    .contact-links {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contact-links a,
+    .contact-links .contact-copy {
+        display: flex;
+
+        width: 100%;
+
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        gap: 0.45rem;
+
+        padding: 1.4rem 0;
+    }
+
+    /*
+       Prevent long email/usernames from forcing
+       the page wider than the viewport.
+    */
+
+    .contact-links a,
+    .contact-value {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* ------------------------------------------------------
+       Footer
+       ------------------------------------------------------ */
 
     footer {
-        gap: 2rem;
+        padding: 2.5rem 7vw;
+
+        gap: 1.5rem;
 
         flex-direction: column;
     }
 }
 
 
-/* ------------------------------
-   Very small screens
------------------------------- */
+/* ==========================================================
+   Very small phones
+   ========================================================== */
 
 @media (max-width: 480px) {
 
-    nav {
-        gap: 0.8rem;
-    }
-
-    nav a {
-        letter-spacing: 0.08em;
+    .topbar {
+        padding: 0 4vw;
     }
 
     .logo {
-        letter-spacing: 0.1em;
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+    }
+
+    nav {
+        gap: 0.65rem;
+    }
+
+    nav a {
+        font-size: 0.52rem;
+        letter-spacing: 0.04em;
+    }
+
+
+    .hero-content {
+        width: 88vw;
+        max-width: 88vw;
+
+        margin-left: 6vw;
+        margin-top: 22vh;
     }
 
     .hero h1 {
-        font-size: 21vw;
+        font-size: 20vw;
     }
+
+
+    .hero-bunny {
+        width: 95vw;
+
+        right: -30vw;
+        top: 68%;
+
+        opacity: 0.32;
+    }
+
+    .hero::after {
+        right: -42vw;
+        top: 68%;
+    }
+
 
     .section {
         padding:
-                6rem 7vw;
+                6rem 6vw;
     }
 
-    .contact-links a {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 0.4rem;
+    .bio-block p {
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
 }
 
