@@ -1,0 +1,213 @@
+<svg
+        viewBox="0 0 400 400"
+        xmlns="http://www.w3.org/2000/svg"
+>
+    <defs>
+        <filter
+                id="line-blue-glow"
+                x="-100%"
+                y="-100%"
+                width="300%"
+                height="300%"
+        >
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <filter
+                id="ambient-blue-glow"
+                x="-100%"
+                y="-100%"
+                width="300%"
+                height="300%"
+        >
+            <feGaussianBlur stdDeviation="10"/>
+        </filter>
+    </defs>
+
+    <style>
+        .sigil-base {
+        fill: none;
+        stroke: #18222d;
+        stroke-width: 3;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        }
+
+        .sigil-base-front {
+        stroke: #1d2935;
+        }
+
+        .sigil-mask {
+        fill: none;
+        stroke: #020304;
+        stroke-width: 13;
+        stroke-linejoin: miter;
+        stroke-linecap: square;
+        }
+
+        .sigil-aura {
+        fill: none;
+        stroke: rgba(22, 140, 255, 0.13);
+        stroke-width: 10;
+        filter: url(#ambient-blue-glow);
+        }
+
+        .sigil-aura-front {
+        stroke: rgba(22, 140, 255, 0.16);
+        }
+
+        .sigil-light {
+        fill: none;
+        stroke: #1495ff;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 14 86;
+        filter: url(#line-blue-glow);
+        }
+
+        .sigil-light-back {
+        animation: backTravel 5.2s linear infinite;
+        }
+
+        .sigil-light-front {
+        animation: frontTravel 4.1s linear infinite;
+        }
+
+        @keyframes backTravel {
+        from {
+        stroke-dashoffset: 0;
+        }
+
+        to {
+        stroke-dashoffset: -100;
+        }
+        }
+
+        @keyframes frontTravel {
+        from {
+        stroke-dashoffset: 35;
+        }
+
+        to {
+        stroke-dashoffset: -65;
+        }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+        .sigil-light {
+        animation: none;
+        }
+        }
+    </style>
+
+
+    <!-- Large star behind -->
+
+    <g>
+        <path
+                class="sigil-aura"
+                d="M 200 28
+               L 246 142
+               L 372 200
+               L 246 258
+               L 200 372
+               L 154 258
+               L 28 200
+               L 154 142
+               Z"
+        />
+
+        <path
+                class="sigil-base"
+                d="M 200 28
+               L 246 142
+               L 372 200
+               L 246 258
+               L 200 372
+               L 154 258
+               L 28 200
+               L 154 142
+               Z"
+        />
+
+        <path
+                class="sigil-light sigil-light-back"
+                pathLength="100"
+                d="M 200 28
+               L 246 142
+               L 372 200
+               L 246 258
+               L 200 372
+               L 154 258
+               L 28 200
+               L 154 142
+               Z"
+        />
+    </g>
+
+
+    <!-- Smaller rotated star in front -->
+
+    <g transform="rotate(45 200 200)">
+
+        <!-- Hides the large star underneath -->
+        <path
+                class="sigil-mask"
+                d="M 200 82
+               L 232 164
+               L 318 200
+               L 232 236
+               L 200 318
+               L 168 236
+               L 82 200
+               L 168 164
+               Z"
+        />
+
+        <path
+                class="sigil-aura sigil-aura-front"
+                d="M 200 82
+               L 232 164
+               L 318 200
+               L 232 236
+               L 200 318
+               L 168 236
+               L 82 200
+               L 168 164
+               Z"
+        />
+
+        <path
+                class="sigil-base sigil-base-front"
+                d="M 200 82
+               L 232 164
+               L 318 200
+               L 232 236
+               L 200 318
+               L 168 236
+               L 82 200
+               L 168 164
+               Z"
+        />
+
+        <path
+                class="sigil-light sigil-light-front"
+                pathLength="100"
+                d="M 200 82
+               L 232 164
+               L 318 200
+               L 232 236
+               L 200 318
+               L 168 236
+               L 82 200
+               L 168 164
+               Z"
+        />
+    </g>
+</svg>
