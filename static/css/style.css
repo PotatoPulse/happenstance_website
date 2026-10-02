@@ -1538,9 +1538,10 @@ footer a:hover {
    Very small phones
    ========================================================== */
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
     .topbar {
+        height: 64px;
         padding: 0 4vw;
     }
 
@@ -1559,37 +1560,110 @@ footer a:hover {
     }
 
 
-    .hero-content {
-        width: 88vw;
-        max-width: 88vw;
+    /* Hero */
 
-        margin-left: 6vw;
-        margin-top: 22vh;
+    .hero {
+        height: 100dvh;
+        min-height: 0;
+
+        --hero-center-y: min(43%, 330px);
+    }
+
+    /* ---------- text ---------- */
+
+    .hero-content {
+        position: absolute;
+
+        left: 7vw;
+        top: var(--hero-center-y);
+
+        width: 48vw;
+        max-width: none;
+
+        margin: 0;
+
+        transform: translateY(-50%);
+
+        z-index: 3;
+    }
+
+    .eyebrow {
+        width: 85vw;
+
+        margin-bottom: 1.8rem;
+
+        font-size: 0.58rem;
+        letter-spacing: 0.18em;
+
+        white-space: nowrap;
     }
 
     .hero h1 {
-        font-size: 20vw;
+        /*
+         * Smaller than before.
+         * No minimum rem size, so it keeps shrinking
+         * with narrow screens.
+         */
+        font-size: 12.5vw;
+
+        line-height: 0.80;
+        letter-spacing: -0.065em;
     }
 
+
+    /* ---------- bunny ---------- */
 
     .hero-bunny {
-        width: 95vw;
+        /*
+         * Bunny gets its own portion of the screen.
+         */
+        width: 38vw;
+        height: auto;
 
-        right: -30vw;
-        top: 68%;
+        right: 0;
+        top: var(--hero-center-y);
 
-        opacity: 0.32;
+        transform: translateY(-50%);
+
+        opacity: 0.58;
+        z-index: 2;
+
+        filter:
+                drop-shadow(0 0 3px rgba(22, 110, 255, 0.75))
+                drop-shadow(0 0 14px rgba(10, 90, 255, 0.38))
+                drop-shadow(0 0 35px rgba(0, 80, 255, 0.22))
+                drop-shadow(0 0 75px rgba(0, 70, 255, 0.13));
     }
+
+
+    /* ---------- blue atmosphere ---------- */
 
     .hero::after {
-        right: -42vw;
-        top: 68%;
+        width: 60vw;
+
+        right: -10vw;
+        top: var(--hero-center-y);
+
+        transform: translateY(-50%);
+
+        opacity: 1;
     }
 
 
+    /* Keep sigil near bottom, independent of composition */
+
+    .sigil {
+        width: 68px;
+        height: 68px;
+
+        bottom: max(16px, env(safe-area-inset-bottom));
+    }
+
+
+    /* Normal sections */
+
     .section {
-        padding:
-                6rem 6vw;
+        padding: 6rem 6vw;
     }
 
     .bio-block p {
