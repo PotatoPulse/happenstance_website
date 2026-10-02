@@ -188,29 +188,29 @@ nav a:hover::after {
 .hero {
     position: relative;
 
-    height: 100vh;
-    min-height: 650px;
-
-    display: flex;
-    align-items: center;
+    height: 100dvh;
+    min-height: 0;
 
     overflow: hidden;
-
     background: #000;
+
+    --hero-x: 8vw;
+
+    --hero-y: max(12vw, 50px);
+
+    --title-size: 10.5vw;
+
+    --bunny-width: 50vw;
+    --bunny-right: 2vw;
+
+    --bunny-y-offset: -16vw;
+
+    --eyebrow-size: 0.70vw;
+    --eyebrow-gap: 2.2vw;
+
+    --sigil-size: 12vw;
 }
 
-
-/* ----------------------------------------------------------
-   Hero background image / texture
-
-   This is intentionally empty for now.
-
-   Later you can add something like:
-
-   background-image: url("../../images/hero-texture.jpg");
-
-   without affecting the bunny.
-   ---------------------------------------------------------- */
 
 .hero-image {
     position: absolute;
@@ -222,17 +222,6 @@ nav a:hover::after {
     background-size: cover;
     background-repeat: no-repeat;
 
-    /*
-       Uncomment when you actually add a hero image:
-
-       background-image:
-           url("../../images/hero-texture.jpg");
-    */
-
-    /*
-       Keep the background subdued so the typography
-       and bunny remain dominant.
-    */
 
     filter:
             grayscale(100%)
@@ -257,15 +246,6 @@ nav a:hover::after {
     }
 }
 
-
-/* ----------------------------------------------------------
-   Hero overlay
-
-   This sits over the future background image.
-
-   There is deliberately NO bunny glow here anymore.
-   The bunny produces its own glow.
-   ---------------------------------------------------------- */
 
 .hero-overlay {
     position: absolute;
@@ -303,27 +283,28 @@ nav a:hover::after {
 .hero-bunny {
     position: absolute;
 
-    right: 3vw;
-    top: 50%;
-
-    width: clamp(220px, 38vw, 700px);
+    width: var(--bunny-width);
     height: auto;
 
-    transform: translateY(-50%);
+    right: var(--bunny-right);
 
-    z-index: 3;
+    top: calc(
+            var(--hero-y) +
+            var(--bunny-y-offset)
+    );
+
+    transform: none;
+
+    z-index: 2;
     opacity: 0.82;
+
     pointer-events: none;
 
     filter:
-        /* Tight glow — keep the lines bright */
-        drop-shadow(0 0 3px rgba(22, 110, 255, 0.70))
-        drop-shadow(0 0 12px rgba(10, 90, 255, 0.32))
-
-        /* Wider glow — smoother dissipation */
-        drop-shadow(0 0 30px rgba(0, 80, 255, 0.18))
-        drop-shadow(0 0 60px rgba(0, 75, 255, 0.12))
-        drop-shadow(0 0 110px rgba(0, 65, 240, 0.10))
+            drop-shadow(0 0 3px rgba(22, 110, 255, 0.70))
+            drop-shadow(0 0 12px rgba(10, 90, 255, 0.32))
+            drop-shadow(0 0 30px rgba(0, 80, 255, 0.18))
+            drop-shadow(0 0 60px rgba(0, 75, 255, 0.12));
 }
 
 /* Large, cheap atmospheric glow behind the bunny */
@@ -332,46 +313,48 @@ nav a:hover::after {
 
     position: absolute;
 
-    /* roughly centered behind the bunny */
-    right: -15vw;
-    top: 50%;
-
-    width: min(70vw, 1100px);
+    width: 60vw;
     aspect-ratio: 1;
 
-    transform: translateY(-50%);
+    right: -10vw;
+    top: var(--hero-y);
+
+    transform: translateY(-35%);
 
     z-index: 0;
-
     pointer-events: none;
 
-    background: radial-gradient(
-            ellipse at center,
-            rgba(0, 70, 255, 0.22) 0%,
-            rgba(0, 65, 245, 0.15) 20%,
-            rgba(0, 55, 225, 0.09) 38%,
-            rgba(0, 45, 200, 0.04) 55%,
-            transparent 72%
-    );
+    background:
+            radial-gradient(
+                    ellipse at center,
+                    rgba(0, 70, 255, 0.20) 0%,
+                    rgba(0, 65, 245, 0.14) 22%,
+                    rgba(0, 55, 225, 0.085) 42%,
+                    rgba(0, 45, 200, 0.035) 60%,
+                    transparent 76%
+            );
 }
+
 
 
 /* ==========================================================
    Hero text
    ========================================================== */
 
+
 .hero-content {
-    position: relative;
+    position: absolute;
 
-    z-index: 2;
+    left: var(--hero-x);
+    top: var(--hero-y);
 
-    margin-left: 10vw;
-    margin-top: 5vh;
+    width: 48vw;
+    margin: 0;
 
-    animation:
-            appear 1.8s ease both;
+    z-index: 3;
+
+    animation: mobileAppear 1.8s ease both;
 }
-
 
 @keyframes appear {
 
@@ -396,18 +379,22 @@ nav a:hover::after {
    ---------------------------------------------------------- */
 
 .eyebrow {
-    margin-bottom: 2rem;
+    margin: 0 0 var(--eyebrow-gap);
+
+    width: auto;
 
     color: var(--blue);
 
-    font-size: 0.7rem;
-    text-transform: uppercase;
+    font-size: var(--eyebrow-size);
     letter-spacing: 0.25em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
 
     text-shadow:
-            0 0 14px
-            rgba(22, 140, 255, 0.35);
+            0 0 14px rgba(22, 140, 255, 0.35);
 }
+
 
 
 /* ----------------------------------------------------------
@@ -419,17 +406,14 @@ nav a:hover::after {
 
     color: #f4f7f9;
 
-    font-size:
-            clamp(5rem, 13vw, 12rem);
-
+    font-size: var(--title-size);
     font-weight: 300;
 
     line-height: 0.78;
     letter-spacing: -0.06em;
 
     text-shadow:
-            0 2px 30px
-            rgba(0, 0, 0, 0.55);
+            0 2px 30px rgba(0, 0, 0, 0.55);
 }
 
 
@@ -440,39 +424,11 @@ nav a:hover::after {
 .subtitle {
     max-width: 400px;
 
-    margin-top: 3rem;
+    margin-top: 3vw;
 
     color: var(--text-soft);
-
     font-size: 1rem;
     letter-spacing: 0.04em;
-}
-
-
-/* ==========================================================
-   Bunny responsive behaviour
-   ========================================================== */
-
-/* Medium screens */
-@media (max-width: 1100px) {
-    .hero-bunny {
-        right: 1vw;
-        opacity: 0.65;
-    }
-}
-
-
-/* Small screens */
-@media (max-width: 750px) {
-    .hero-bunny {
-        right: -5vw;
-        opacity: 0.4;
-
-        filter:
-                drop-shadow(0 0 3px rgba(22, 110, 255, 0.55))
-                drop-shadow(0 0 20px rgba(0, 80, 255, 0.15))
-                drop-shadow(0 0 55px rgba(0, 60, 220, 0.06));
-    }
 }
 
 /* ==========================================
@@ -483,20 +439,15 @@ nav a:hover::after {
     position: absolute;
 
     left: 50%;
-    bottom: 20px;
+    top: calc(var(--hero-y) + 28vw);
 
-    width: 100px;
-    height: 100px;
+    width: var(--sigil-size);
+    aspect-ratio: 1;
 
     transform: translateX(-50%);
 
     z-index: 5;
-
     opacity: 0.95;
-
-    transition:
-            opacity 0.4s ease,
-            transform 0.4s ease;
 }
 
 .sigil:hover {
@@ -1219,146 +1170,6 @@ footer a:hover {
         letter-spacing: 0.08em;
     }
 
-
-    /* ------------------------------------------------------
-       Hero
-       ------------------------------------------------------ */
-
-    .hero {
-        height: 100svh;
-        min-height: 620px;
-
-        align-items: flex-start;
-
-        /*
-         * One shared vertical anchor for both
-         * text and bunny.
-         */
-        --hero-center-y: 50%;
-    }
-
-
-    .hero-content {
-        position: absolute;
-
-        left: 5vw;
-        top: var(--hero-center-y);
-
-        transform: translateY(-50%);
-
-        margin: 0;
-
-        width: 55vw;
-        max-width: 55vw;
-
-        z-index: 3;
-    }
-
-    .hero-content {
-        animation: mobileAppear 1.8s ease both;
-    }
-
-    @keyframes mobileAppear {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .eyebrow {
-        margin-bottom: 1.5rem;
-
-        font-size: 0.58rem;
-        letter-spacing: 0.18em;
-
-        width: 80vw;
-    }
-
-
-    .hero h1 {
-        font-size: clamp(3.2rem, 14.5vw, 6.5rem);
-
-        line-height: 0.80;
-        letter-spacing: -0.065em;
-    }
-
-
-    .subtitle {
-        max-width: 100%;
-
-        margin-top: 2rem;
-
-        font-size: 0.85rem;
-    }
-
-
-
-    /* ------------------------------------------------------
-       Bunny
-
-       Instead of sitting beside the title like desktop,
-       move it into the lower-right portion of the hero.
-       ------------------------------------------------------ */
-
-    .hero-bunny {
-        width: clamp(170px, 37vw, 320px);
-        height: auto;
-
-        right: 2vw;
-
-        top: var(--hero-center-y);
-
-        transform: translateY(-50%);
-
-        opacity: 0.60;
-        z-index: 2;
-
-        filter:
-                drop-shadow(0 0 3px rgba(22, 110, 255, 0.75))
-                drop-shadow(0 0 14px rgba(10, 90, 255, 0.38))
-                drop-shadow(0 0 35px rgba(0, 80, 255, 0.22))
-                drop-shadow(0 0 75px rgba(0, 70, 255, 0.13));
-    }
-
-
-    .hero::after {
-        width: clamp(320px, 62vw, 550px);
-
-        right: -8vw;
-
-        top: var(--hero-center-y);
-
-        transform: translateY(-50%);
-
-        opacity: 1;
-
-        background:
-                radial-gradient(
-                        ellipse at center,
-                        rgba(0, 70, 255, 0.20) 0%,
-                        rgba(0, 65, 245, 0.14) 22%,
-                        rgba(0, 55, 225, 0.085) 42%,
-                        rgba(0, 45, 200, 0.035) 60%,
-                        transparent 76%
-                );
-    }
-
-
-    /* ------------------------------------------------------
-       Sigil
-       ------------------------------------------------------ */
-
-    .sigil {
-        width: 75px;
-        height: 75px;
-
-        bottom: 12px;
-    }
-
-
     /* ------------------------------------------------------
        All normal sections
        ------------------------------------------------------ */
@@ -1557,106 +1368,6 @@ footer a:hover {
     nav a {
         font-size: 0.52rem;
         letter-spacing: 0.04em;
-    }
-
-
-    /* Hero */
-
-    .hero {
-        height: 100dvh;
-        min-height: 0;
-
-        --hero-center-y: min(43%, 330px);
-    }
-
-    /* ---------- text ---------- */
-
-    .hero-content {
-        position: absolute;
-
-        left: 7vw;
-        top: var(--hero-center-y);
-
-        width: 48vw;
-        max-width: none;
-
-        margin: 0;
-
-        transform: translateY(-50%);
-
-        z-index: 3;
-    }
-
-    .eyebrow {
-        width: 85vw;
-
-        margin-bottom: 1.8rem;
-
-        font-size: 0.58rem;
-        letter-spacing: 0.18em;
-
-        white-space: nowrap;
-    }
-
-    .hero h1 {
-        /*
-         * Smaller than before.
-         * No minimum rem size, so it keeps shrinking
-         * with narrow screens.
-         */
-        font-size: 12.5vw;
-
-        line-height: 0.80;
-        letter-spacing: -0.065em;
-    }
-
-
-    /* ---------- bunny ---------- */
-
-    .hero-bunny {
-        /*
-         * Bunny gets its own portion of the screen.
-         */
-        width: 38vw;
-        height: auto;
-
-        right: 0;
-        top: var(--hero-center-y);
-
-        transform: translateY(-50%);
-
-        opacity: 0.58;
-        z-index: 2;
-
-        filter:
-                drop-shadow(0 0 3px rgba(22, 110, 255, 0.75))
-                drop-shadow(0 0 14px rgba(10, 90, 255, 0.38))
-                drop-shadow(0 0 35px rgba(0, 80, 255, 0.22))
-                drop-shadow(0 0 75px rgba(0, 70, 255, 0.13));
-    }
-
-
-    /* ---------- blue atmosphere ---------- */
-
-    .hero::after {
-        width: 60vw;
-
-        right: -10vw;
-        top: var(--hero-center-y);
-
-        transform: translateY(-50%);
-
-        opacity: 1;
-    }
-
-
-    /* Keep sigil near bottom, independent of composition */
-
-    .sigil {
-        width: 68px;
-        height: 68px;
-
-        bottom: max(16px, env(safe-area-inset-bottom));
     }
 
 
