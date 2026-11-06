@@ -169,7 +169,7 @@ function renderShows() {
         // Ticket link
         const tickets = document.createElement("a");
         tickets.className = "show-tickets";
-        tickets.textContent = "Tickets ↗";
+        tickets.textContent = "Tickets ↗\uFE0E";
 
         const url = show.tickets;
 
